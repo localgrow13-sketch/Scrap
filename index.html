@@ -1,546 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="index, follow">
-<title>MossyMart - Vinyl Records, Audio CDs & Cassettes</title>
-<style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
-body { background:#fafafa; color:#333; }
-.container { max-width:1200px; margin:0 auto; padding:0 20px; }
-.hide { display:none !important; }
-.top-bar { background:#2d5016; color:#fff; font-size:11px; padding:8px 0; }
-.top-bar .container { display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
-header { background:#fff; padding:12px 0; box-shadow:0 2px 5px rgba(0,0,0,0.1); position:sticky; top:0; z-index:100; }
-.header-flex { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-.logo { font-size:20px; font-weight:bold; color:#2d5016; text-decoration:none; cursor:pointer; }
-.search-bar { flex:1; min-width:150px; padding:8px 12px; border:1px solid #ddd; border-radius:20px; font-size:13px; }
-nav a, nav button { margin-left:8px; text-decoration:none; color:#333; cursor:pointer; background:none; border:none; font-size:13px; }
-nav a:hover, nav button:hover { color:#2d5016; }
-.cart-count { background:#e63946; color:#fff; padding:2px 6px; border-radius:50%; font-size:10px; }
-.cat-nav { background:#4a7c2e; padding:8px 0; overflow-x:auto; }
-.cat-nav .container { display:flex; gap:15px; flex-wrap:nowrap; }
-.cat-nav a { color:#fff; text-decoration:none; font-size:12px; cursor:pointer; white-space:nowrap; }
-.cat-nav a:hover { text-decoration:underline; }
-.hero { background:linear-gradient(135deg,#4a7c2e,#2d5016); color:#fff; padding:50px 0; text-align:center; }
-.hero h1 { font-size:28px; margin-bottom:10px; }
-.hero p { font-size:14px; margin-bottom:20px; }
-.btn { background:#fff; color:#2d5016; padding:10px 24px; border-radius:20px; text-decoration:none; font-weight:bold; display:inline-block; cursor:pointer; border:none; font-size:14px; }
-.btn:hover { background:#f0f0f0; }
-.btn-secondary { background:#2d5016; color:#fff; }
-.btn-secondary:hover { background:#4a7c2e; }
-.btn-whatsapp { background:#25d366; color:#fff; padding:12px 20px; border-radius:20px; text-decoration:none; font-weight:bold; display:inline-flex; align-items:center; gap:8px; cursor:pointer; border:none; font-size:14px; }
-.btn-whatsapp:hover { background:#20ba5a; }
-.section { padding:40px 0; }
-.bg-light { background:#f0f5ea; }
-.section h2 { text-align:center; margin-bottom:30px; color:#2d5016; font-size:22px; }
-.product-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:12px; }
-.product-card { background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.08); transition:transform .2s; }
-.product-card:hover { transform:translateY(-3px); }
-.product-card img { width:100%; height:150px; object-fit:cover; background:#e8e8e8; }
-.product-card .img-placeholder { background:#e8e8e8; height:150px; display:flex; align-items:center; justify-content:center; font-size:48px; }
-.product-card .info { padding:10px; }
-.product-card .cat { font-size:11px; color:#777; }
-.product-card h3 { font-size:13px; margin:5px 0; line-height:1.3; }
-.product-card .price { color:#e63946; font-weight:bold; font-size:14px; }
-.product-card .desc { font-size:11px; color:#666; margin:5px 0; }
-.product-card button { width:100%; padding:6px; margin-top:8px; background:#2d5016; color:#fff; border:none; border-radius:4px; cursor:pointer; font-size:12px; }
-.product-card button:hover { background:#4a7c2e; }
-.product-card .delete-btn { background:#e63946; margin-top:4px; }
-.category-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; }
-.cat-card { background:#fff; padding:20px; text-align:center; text-decoration:none; color:#2d5016; border-radius:8px; font-size:14px; font-weight:bold; box-shadow:0 2px 8px rgba(0,0,0,0.08); cursor:pointer; transition:.2s; }
-.cat-card:hover { background:#2d5016; color:#fff; }
-.shop-flex { display:flex; gap:15px; flex-wrap:wrap; }
-.sidebar { width:100%; background:#fff; padding:15px; border-radius:8px; }
-.sidebar h3 { color:#2d5016; margin:12px 0 8px; font-size:14px; }
-.sidebar ul { list-style:none; display:flex; gap:8px; flex-wrap:wrap; }
-.sidebar li a { color:#555; text-decoration:none; line-height:1.6; cursor:pointer; background:#f0f5ea; padding:6px 12px; border-radius:4px; font-size:12px; }
-.sidebar li a:hover { color:#2d5016; background:#e0ecd2; }
-.shop-main { flex:1; min-width:100%; }
-.empty-shop { text-align:center; padding:40px 20px; }
-.empty-shop-icon { font-size:48px; margin-bottom:15px; }
-.empty-shop p { color:#666; font-size:14px; line-height:1.6; }
-
-/* Upload Page Styles */
-.upload-container { max-width:600px; margin:0 auto; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
-.upload-container h2 { color:#2d5016; margin-bottom:20px; text-align:center; font-size:20px; }
-.form-group { margin-bottom:15px; }
-.form-group label { display:block; color:#2d5016; font-weight:bold; margin-bottom:6px; font-size:13px; }
-.form-group input, .form-group select, .form-group textarea { width:100%; padding:10px; border:1px solid #ddd; border-radius:6px; font-size:13px; font-family:inherit; }
-.form-group textarea { resize:vertical; min-height:70px; }
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline:none; border-color:#2d5016; box-shadow:0 0 5px rgba(45,80,22,0.2); }
-
-.upload-area { border:2px dashed #2d5016; border-radius:8px; padding:30px 15px; text-align:center; cursor:pointer; transition:.3s; background:#f9f9f9; }
-.upload-area:hover { background:#f0f5ea; border-color:#4a7c2e; }
-.upload-area.dragover { background:#f0f5ea; border-color:#4a7c2e; }
-.upload-icon { font-size:36px; margin-bottom:8px; }
-.upload-area p { color:#666; margin:5px 0; font-size:12px; }
-.upload-area .hint { color:#999; font-size:11px; }
-
-.image-preview { display:grid; grid-template-columns:repeat(auto-fill,minmax(80px,1fr)); gap:10px; margin-top:12px; }
-.preview-item { position:relative; border-radius:6px; overflow:hidden; background:#e8e8e8; }
-.preview-item img { width:100%; height:80px; object-fit:cover; }
-.preview-item .remove-img { position:absolute; top:3px; right:3px; background:#e63946; color:#fff; border:none; border-radius:50%; width:24px; height:24px; cursor:pointer; font-size:14px; }
-
-.form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.submit-btn { width:100%; padding:12px; background:#2d5016; color:#fff; border:none; border-radius:6px; font-weight:bold; font-size:14px; cursor:pointer; }
-.submit-btn:hover { background:#4a7c2e; }
-.submit-btn:disabled { background:#ccc; cursor:not-allowed; }
-
-.success-msg { background:#d4edda; color:#155724; padding:12px; border-radius:6px; margin-bottom:15px; display:none; font-size:13px; }
-.error-msg { background:#f8d7da; color:#721c24; padding:12px; border-radius:6px; margin-bottom:15px; display:none; font-size:13px; }
-
-/* Admin Dashboard */
-.admin-header { background:#2d5016; color:#fff; padding:15px; text-align:center; }
-.admin-header h2 { font-size:20px; margin:0; }
-.admin-header p { font-size:12px; margin:5px 0 0; }
-.products-table { width:100%; border-collapse:collapse; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.1); margin-top:15px; font-size:12px; }
-.products-table th { background:#f0f5ea; color:#2d5016; padding:10px; text-align:left; font-weight:bold; border-bottom:2px solid #2d5016; }
-.products-table td { padding:10px; border-bottom:1px solid #eee; }
-.products-table tr:hover { background:#f9f9f9; }
-.products-table img { width:50px; height:50px; object-fit:cover; border-radius:4px; }
-.action-btns { display:flex; gap:5px; }
-.delete-btn { padding:5px 10px; background:#e63946; color:#fff; border:none; border-radius:4px; cursor:pointer; font-size:11px; }
-.delete-btn:hover { background:#d32f2f; }
-.empty-table { text-align:center; padding:40px 20px; color:#999; }
-
-/* Modal */
-.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000; align-items:center; justify-content:center; }
-.modal.active { display:flex; }
-.modal-box { background:#fff; padding:20px; border-radius:8px; max-width:90%; max-height:80vh; overflow-y:auto; }
-.modal-box h2 { color:#2d5016; margin-bottom:15px; font-size:18px; }
-.close-btn { float:right; cursor:pointer; font-size:24px; color:#999; }
-.cart-item { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #eee; gap:10px; }
-.cart-item img { width:50px; height:50px; object-fit:cover; border-radius:4px; flex-shrink:0; }
-.cart-item-info { flex:1; font-size:12px; }
-.cart-item-info strong { font-size:13px; }
-.cart-item .remove-btn { background:none; border:none; color:red; cursor:pointer; font-size:16px; flex-shrink:0; }
-
-/* Floating Contact Button */
-.floating-contact { position:fixed; bottom:20px; right:20px; display:flex; gap:10px; z-index:999; }
-.floating-contact a { display:flex; align-items:center; justify-content:center; width:56px; height:56px; border-radius:50%; box-shadow:0 4px 12px rgba(0,0,0,0.2); text-decoration:none; font-size:28px; transition:transform .2s; }
-.floating-contact a:hover { transform:scale(1.1); }
-.float-whatsapp { background:#25d366; }
-.float-phone { background:#007bff; }
-
-footer { background:#1a3409; color:#ccc; padding:30px 0 0; margin-top:40px; }
-.footer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:20px; }
-footer h3 { color:#fff; margin-bottom:10px; font-size:14px; }
-footer a { color:#ccc; text-decoration:none; line-height:1.6; cursor:pointer; font-size:12px; }
-.copyright { text-align:center; padding:15px; border-top:1px solid #333; margin-top:20px; font-size:11px; }
-
-@media(max-width:480px) {
-  .header-flex { gap:5px; }
-  .logo { font-size:18px; }
-  .search-bar { min-width:120px; padding:6px 10px; }
-  nav a, nav button { margin-left:5px; font-size:12px; }
-  .hero { padding:35px 0; }
-  .hero h1 { font-size:22px; }
-  .hero p { font-size:13px; }
-  .btn { padding:8px 20px; font-size:13px; }
-  .product-grid { grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px; }
-  .upload-container { padding:15px; }
-  .form-row { grid-template-columns:1fr; gap:10px; }
-  .sidebar { margin-bottom:15px; }
-  .sidebar ul { flex-direction:column; }
-  .sidebar li a { width:100%; text-align:center; }
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MetalForge — Premium industrial scrap & metal trading. Copper, aluminum, steel, plastic, machinery scrap, batteries & e-waste." />
+  <meta name="keywords" content="scrap metal, recycling, copper scrap, aluminum, steel, e-waste, industrial waste trading" />
+  <title>MetalForge — Premium Industrial Scrap & Metal Trading</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<div class="top-bar"><div class="container"><span>📞 +91-94452-67918 | ✉️ info@mossymart.com</span><span>USD $</span></div></div>
-<header><div class="container header-flex"><a class="logo" onclick="showPage('home')">🎵 MossyMart</a><input type="text" class="search-bar" id="searchInput" placeholder="Search..." oninput="searchProducts()"><nav><a onclick="showPage('home')">Home</a><a onclick="openCart()">Cart 🛒 <span class="cart-count">0</span></a><button onclick="toggleAdminPanel()" title="Admin">⚙️</button></nav></div></header>
-<nav class="cat-nav"><div class="container"><a onclick="filterCategory('Vinyl Records')">🎼 Vinyl Records</a><a onclick="filterCategory('Audio Cassettes')">📼 Audio Cassettes</a><a onclick="filterCategory('Audio CDs')">💿 Audio CDs</a><a onclick="filterCategory('Video CDs')">📀 Video CDs</a><a onclick="filterCategory('Gramophone 78 RPM')">🎵 Gramophone 78 RPM</a><a onclick="filterCategory('Accessories')">🎧 Accessories</a></div></nav>
+  <!-- ===== LOADING ANIMATION ===== -->
+  <div id="loader" class="loader">
+    <div class="loader-ring"></div>
+    <span class="loader-text">METALFORGE</span>
+  </div>
 
-<!-- HOME PAGE -->
-<div id="page-home">
-<section class="hero"><div class="container"><h1>🎵 Indian Music</h1><p>Vinyl Records • Audio Cassettes • Audio CDs • Video CDs • Gramophone 78 RPM • Accessories</p><button class="btn" onclick="showPage('shop')">Shop Now</button></div></section>
-<section class="section"><div class="container"><h2>Popular Products</h2><div class="product-grid" id="popular-products"><div class="empty-shop" style="grid-column:1/-1"><div class="empty-shop-icon">📂</div><p>No products added yet. Use Admin to upload products.</p></div></div></div></section>
-<section class="section bg-light"><div class="container"><h2>Shop by Category</h2><div class="category-grid"><a class="cat-card" onclick="filterCategory('Vinyl Records')">🎼 Vinyl Records</a><a class="cat-card" onclick="filterCategory('Audio Cassettes')">📼 Audio Cassettes</a><a class="cat-card" onclick="filterCategory('Audio CDs')">💿 Audio CDs</a><a class="cat-card" onclick="filterCategory('Video CDs')">📀 Video CDs</a><a class="cat-card" onclick="filterCategory('Gramophone 78 RPM')">🎵 Gramophone 78 RPM</a><a class="cat-card" onclick="filterCategory('Accessories')">🎧 Accessories</a></div></div></section>
-</div>
+  <!-- ===== NAVBAR ===== -->
+  <header id="navbar" class="navbar">
+    <div class="container nav-inner">
+      <a href="#home" class="logo">⚙️ Metal<span>Forge</span></a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#home">Home</a>
+        <a href="#products">Products</a>
+        <a href="#categories">Categories</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
 
-<!-- SHOP PAGE -->
-<div id="page-shop" class="hide"><section class="section"><div class="container"><h2 id="shop-title">Shop All Products</h2><div class="shop-flex"><aside class="sidebar"><h3>📁 Categories</h3><ul><li><a onclick="filterCategory('all')">All Products</a></li><li><a onclick="filterCategory('Vinyl Records')">Vinyl Records</a></li><li><a onclick="filterCategory('Audio Cassettes')">Audio Cassettes</a></li><li><a onclick="filterCategory('Audio CDs')">Audio CDs</a></li><li><a onclick="filterCategory('Video CDs')">Video CDs</a></li><li><a onclick="filterCategory('Gramophone 78 RPM')">Gramophone 78 RPM</a></li><li><a onclick="filterCategory('Accessories')">Accessories</a></li></ul><h3>🌍 Languages</h3><ul><li><a onclick="filterLanguage('all')">All Languages</a></li><li><a onclick="filterLanguage('Tamil')">Tamil</a></li><li><a onclick="filterLanguage('Hindi')">Hindi</a></li><li><a onclick="filterLanguage('Kannada')">Kannada</a></li><li><a onclick="filterLanguage('Bengali')">Bengali</a></li><li><a onclick="filterLanguage('English')">English</a></li></ul></aside><div class="shop-main"><div class="product-grid" id="all-products"><div class="empty-shop" style="grid-column:1/-1"><div class="empty-shop-icon">🛍️</div><p>No products in this category yet.</p></div></div></div></div></div></section></div>
+  <!-- ===== HERO ===== -->
+  <section id="home" class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-sparks"></div>
+    <div class="container hero-content reveal">
+      <p class="hero-eyebrow">Industrial Recycling · Global Trading</p>
+      <h1>Turning <span class="gold">Scrap</span> Into <span class="gold">Value</span></h1>
+      <p class="hero-sub">Premium trading of copper, aluminum, steel, plastic, machinery scrap, batteries & e-waste — sustainable sourcing at industrial scale.</p>
+      <div class="hero-btns">
+        <a href="#products" class="btn btn-gold">View Products</a>
+        <a href="#contact" class="btn btn-ghost">Contact Us</a>
+      </div>
+    </div>
+    <a href="#stats" class="scroll-hint" aria-label="Scroll down">▼</a>
+  </section>
 
-<!-- UPLOAD PAGE -->
-<div id="page-upload" class="hide"><section class="section"><div class="container"><div class="upload-container"><h2>📸 Upload Product</h2><div class="success-msg" id="success-msg">✓ Product uploaded successfully!</div><div class="error-msg" id="error-msg"></div><form id="productForm" onsubmit="uploadProduct(event)"><div class="form-group"><label for="prodName">Product Name *</label><input type="text" id="prodName" placeholder="e.g., A.R. Rahman Hits Vinyl Record" required></div><div class="form-row"><div class="form-group"><label for="category">Category *</label><select id="category" required><option value="">Select Category</option><option value="Vinyl Records">Vinyl Records</option><option value="Audio Cassettes">Audio Cassettes</option><option value="Audio CDs">Audio CDs</option><option value="Video CDs">Video CDs</option><option value="Gramophone 78 RPM">Gramophone 78 RPM</option><option value="Accessories">Accessories</option></select></div><div class="form-group"><label for="language">Language *</label><select id="language" required><option value="">Select Language</option><option value="Tamil">Tamil</option><option value="Hindi">Hindi</option><option value="Kannada">Kannada</option><option value="Bengali">Bengali</option><option value="English">English</option></select></div></div><div class="form-row"><div class="form-group"><label for="price">Price (USD) *</label><input type="number" id="price" step="0.01" placeholder="19.99" required></div><div class="form-group"><label for="stock">Stock Qty</label><input type="number" id="stock" value="1" min="1"></div></div><div class="form-group"><label for="description">Description</label><textarea id="description" placeholder="Artist, year, condition, etc."></textarea></div><div class="form-group"><label>Product Photos * (Max 5)</label><div class="upload-area" id="uploadArea"><div class="upload-icon">📸</div><p>Tap to upload or drag photos</p><p class="hint">JPG, PNG (Max 5MB each)</p><input type="file" id="fileInput" multiple accept="image/*" style="display:none"></div><div class="image-preview" id="imagePreview"></div></div><button type="submit" class="submit-btn">Upload Product</button></form></div></div></section></div>
+  <!-- ===== ANIMATED COUNTERS ===== -->
+  <section id="stats" class="stats">
+    <div class="container stats-grid">
+      <div class="stat reveal"><h3 class="counter" data-target="50000">0</h3><p>Tons Processed</p></div>
+      <div class="stat reveal"><h3 class="counter" data-target="1200">0</h3><p>Global Clients</p></div>
+      <div class="stat reveal"><h3 class="counter" data-target="35">0</h3><p>Countries Served</p></div>
+      <div class="stat reveal"><h3 class="counter" data-target="18">0</h3><p>Years Experience</p></div>
+    </div>
+  </section>
 
-<!-- ADMIN DASHBOARD PAGE -->
-<div id="page-admin" class="hide"><div class="admin-header"><h2>🔧 Admin Dashboard</h2><p>Manage your products</p></div><section class="section"><div class="container"><div style="display:flex;gap:8px;margin-bottom:15px;flex-wrap:wrap"><button class="btn btn-secondary" onclick="showPage('upload')">➕ Add New Product</button><button class="btn btn-secondary" onclick="exportProducts()">📥 Export Data</button><button class="btn btn-secondary" onclick="clearAllProducts()" style="background:#e63946;font-size:12px">🗑️ Clear All</button></div><table class="products-table" id="productsTable"><thead><tr><th>IMG</th><th>Product Name</th><th>Category</th><th>Language</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead><tbody id="tablebody"></tbody></table></div></section></div>
+  <!-- ===== PRODUCTS ===== -->
+  <section id="products" class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>Our <span class="gold">Products</span></h2>
+        <p>Browse high-grade recyclable materials, sorted and certified.</p>
+      </div>
 
-<!-- CART MODAL -->
-<div class="modal" id="cartModal"><div class="modal-box"><span class="close-btn" onclick="closeCart()">&times;</span><h2>🛒 Your Cart</h2><div id="cart-items"></div><h3 style="margin-top:15px;font-size:16px">Total: ₹<span id="cart-total">0.00</span></h3><p style="color:#666;margin:12px 0;font-size:12px">💬 Click below to order on WhatsApp (Cash on Delivery)</p><a href="#" class="btn-whatsapp" id="whatsappLink" target="_blank">💬 Order on WhatsApp</a><p class="hint" style="color:#999;margin-top:12px;font-size:11px">Payment gateway integration coming soon!</p></div></div>
+      <!-- Search & Filter Controls -->
+      <div class="controls reveal">
+        <input type="search" id="searchInput" class="control-input" placeholder="🔍 Search products..." />
+        <select id="categoryFilter" class="control-input"></select>
+        <select id="sortSelect" class="control-input">
+          <option value="default">Sort: Default</option>
+          <option value="price-asc">Price: Low → High</option>
+          <option value="price-desc">Price: High → Low</option>
+          <option value="name-asc">Name: A → Z</option>
+        </select>
+      </div>
 
-<!-- FLOATING CONTACT BUTTONS -->
-<div class="floating-contact">
-<a href="tel:+919445267918" class="float-phone" title="Call">☎️</a>
-<a href="https://wa.me/919445267918?text=Hi%20MossyMart!" class="float-whatsapp" title="WhatsApp">💬</a>
-</div>
+      <!-- Product grid is rendered dynamically by script.js -->
+      <div id="productGrid" class="product-grid"></div>
+      <p id="noResults" class="no-results hide">No products match your search.</p>
 
-<!-- FOOTER -->
-<footer><div class="container footer-grid"><div><h3>🎵 MossyMart</h3><p>Pre-owned Indian music collectibles</p></div><div><h3>Quick Links</h3><a onclick="showPage('shop')">Shop Products</a><br><a onclick="alert('Call: +91-94452-67918')">Contact Us</a><br><a>Shipping Info</a><br><a>Return Policy</a></div><div><h3>Shop by Language</h3><a onclick="filterLanguage('Tamil')">Tamil</a><br><a onclick="filterLanguage('Hindi')">Hindi</a><br><a onclick="filterLanguage('Kannada')">Kannada</a><br><a onclick="filterLanguage('Bengali')">Bengali</a></div><div><h3>Follow Us</h3><a href="https://instagram.com" target="_blank">📷 Instagram</a><br><a href="https://facebook.com" target="_blank">📘 Facebook</a><br><a href="https://twitter.com" target="_blank">🐦 Twitter</a></div></div><div class="copyright">© 2025 MossyMart. All Rights Reserved. | <a href="#" style="color:#ccc">Privacy Policy</a> | <a href="#" style="color:#ccc">Terms of Service</a></div></footer>
+      <!-- "Load more" placeholder for 50,000+ product pagination -->
+      <div class="load-more-wrap">
+        <button id="loadMoreBtn" class="btn btn-ghost hide">Load More</button>
+      </div>
+    </div>
+  </section>
 
-<script>
-// Products Database - STARTS EMPTY
-let products = JSON.parse(localStorage.getItem('mossymart_products')) || [];
+  <!-- ===== CATEGORIES ===== -->
+  <section id="categories" class="section section-alt">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>Material <span class="gold">Categories</span></h2>
+        <p>Click a category to filter products instantly.</p>
+      </div>
+      <div id="categoryGrid" class="category-grid"></div>
+    </div>
+  </section>
 
-let cart = JSON.parse(localStorage.getItem('mossymart_cart') || '[]');
-let adminMode = false;
-const WHATSAPP_NUMBER = '919445267918';
+  <!-- ===== ABOUT ===== -->
+  <section id="about" class="section">
+    <div class="container about-grid">
+      <div class="about-text reveal">
+        <h2>About <span class="gold">MetalForge</span></h2>
+        <p>For nearly two decades, MetalForge has been a trusted leader in industrial scrap trading and recycling. We connect suppliers and manufacturers through a transparent, sustainable, and high-volume supply chain.</p>
+        <p>Our certified processing facilities handle ferrous and non-ferrous metals, plastics, machinery scrap, and e-waste — meeting global environmental and quality standards.</p>
+        <ul class="about-list">
+          <li>✔ ISO-certified recycling processes</li>
+          <li>✔ Global logistics & export ready</li>
+          <li>✔ Transparent live pricing</li>
+          <li>✔ Sustainable, eco-first operations</li>
+        </ul>
+      </div>
+      <div class="about-card glass reveal">
+        <h3>Why Choose Us</h3>
+        <div class="about-meter"><span>Reliability</span><div class="bar"><i style="width:96%"></i></div></div>
+        <div class="about-meter"><span>Sustainability</span><div class="bar"><i style="width:92%"></i></div></div>
+        <div class="about-meter"><span>Pricing</span><div class="bar"><i style="width:88%"></i></div></div>
+        <div class="about-meter"><span>Logistics</span><div class="bar"><i style="width:94%"></i></div></div>
+      </div>
+    </div>
+  </section>
 
-// ====== PAGE NAVIGATION ======
-function showPage(p) {
-  document.querySelectorAll('[id^="page-"]').forEach(e => e.classList.add('hide'));
-  document.getElementById('page-' + p).classList.remove('hide');
-  window.scrollTo(0, 0);
-  
-  if (p === 'shop') refreshShop();
-  if (p === 'admin') refreshAdminTable();
-  if (p === 'upload') document.getElementById('productForm').reset();
-}
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-head reveal"><h2>Client <span class="gold">Testimonials</span></h2></div>
+      <div id="testimonialGrid" class="testimonial-grid"></div>
+    </div>
+  </section>
 
-function toggleAdminPanel() {
-  const pwd = prompt('🔒 Admin Password:');
-  if (pwd === 'admin123') {
-    adminMode = true;
-    showPage('admin');
-  } else if (pwd !== null) {
-    alert('❌ Wrong password');
-  }
-}
+  <!-- ===== FAQ ===== -->
+  <section class="section">
+    <div class="container faq-wrap">
+      <div class="section-head reveal"><h2>Frequently Asked <span class="gold">Questions</span></h2></div>
+      <div id="faqList" class="faq-list"></div>
+    </div>
+  </section>
 
-// ====== PRODUCT MANAGEMENT ======
-function renderProducts(id, list) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  
-  if (list.length === 0) {
-    el.innerHTML = '<div class="empty-shop" style="grid-column:1/-1"><div class="empty-shop-icon">📂</div><p>No products available in this category yet.</p></div>';
-    return;
-  }
-  
-  el.innerHTML = list.map(p => {
-    const img = p.images && p.images.length > 0 ? `<img src="${p.images[0]}" alt="${p.title}">` : `<div class="img-placeholder">📀</div>`;
-    
-    return `
-      <div class="product-card">
-        ${img}
-        <div class="info">
-          <span class="cat">${p.lang} • ${p.cat}</span>
-          <h3>${p.title}</h3>
-          <p class="desc">${p.desc || ''}</p>
-          <div class="price">₹${p.price.toFixed(2)}</div>
-          <button onclick="addToCart(${p.id})">🛒 Add</button>
-          ${adminMode ? `<button class="delete-btn" onclick="deleteProduct(${p.id})">Delete</button>` : ''}
+  <!-- ===== CONTACT ===== -->
+  <section id="contact" class="section section-alt">
+    <div class="container contact-grid">
+      <div class="contact-info reveal">
+        <h2>Get In <span class="gold">Touch</span></h2>
+        <p>Request a quote or ask about bulk supply. Our trading desk responds within 24 hours.</p>
+        <ul class="contact-list">
+          <li>📞 <a href="tel:+919445267918">+91 94452 67918</a></li>
+          <li>✉️ <a href="mailto:trade@metalforge.com">trade@metalforge.com</a></li>
+          <li>📍 Industrial Estate, Sector 9, Pune, India</li>
+        </ul>
+        <a href="https://wa.me/919445267918?text=Hi%20MetalForge!%20I'd%20like%20a%20quote." class="btn btn-whatsapp" target="_blank" rel="noopener">💬 Chat on WhatsApp</a>
+
+        <!-- Google Maps placeholder -->
+        <div class="map-placeholder glass">🗺️ Google Maps Embed Placeholder</div>
+      </div>
+
+      <form class="contact-form glass reveal" id="inquiryForm">
+        <h3>Send an Inquiry</h3>
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Email Address" required />
+        <input type="tel" name="phone" placeholder="Phone Number" />
+        <select name="material" required>
+          <option value="">Material of Interest</option>
+          <option>Copper Scrap</option><option>Aluminum Scrap</option>
+          <option>Steel Scrap</option><option>Plastic Scrap</option>
+          <option>Machinery Scrap</option><option>E-Waste</option>
+        </select>
+        <textarea name="message" rows="4" placeholder="Your message / quantity..."></textarea>
+        <button type="submit" class="btn btn-gold full">Submit Inquiry</button>
+        <p class="form-note" id="formNote"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="#home" class="logo">⚙️ Metal<span>Forge</span></a>
+        <p class="footer-tag">Premium industrial scrap & metal trading since 2007.</p>
+      </div>
+      <div><h4>Company</h4><a href="#about">About</a><a href="#products">Products</a><a href="#contact">Contact</a></div>
+      <div><h4>Categories</h4><a href="#categories">Copper</a><a href="#categories">Aluminum</a><a href="#categories">E-Waste</a></div>
+      <div>
+        <h4>Follow Us</h4>
+        <div class="socials">
+          <a href="#" aria-label="LinkedIn">in</a><a href="#" aria-label="Twitter">𝕏</a>
+          <a href="#" aria-label="Facebook">f</a><a href="#" aria-label="Instagram">◎</a>
         </div>
       </div>
-    `;
-  }).join('');
-}
+    </div>
+    <div class="copyright">© 2025 MetalForge Industries. All Rights Reserved.</div>
+  </footer>
 
-function getFiltered() {
-  let filtered = products;
-  if (currentFilter !== 'all') {
-    filtered = filtered.filter(p => p.cat === currentFilter);
-  }
-  if (currentLangFilter !== 'all') {
-    filtered = filtered.filter(p => p.lang === currentLangFilter);
-  }
-  return filtered;
-}
+  <!-- Floating WhatsApp -->
+  <a href="https://wa.me/919445267918" class="float-wa" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
 
-let currentFilter = 'all', currentLangFilter = 'all';
-
-function refreshShop() {
-  renderProducts('all-products', getFiltered());
-  let title = currentFilter === 'all' ? 'All Products' : currentFilter;
-  if (currentLangFilter !== 'all') title += ' - ' + currentLangFilter;
-  document.getElementById('shop-title').textContent = title;
-}
-
-function filterCategory(c) {
-  currentFilter = c;
-  showPage('shop');
-}
-
-function filterLanguage(l) {
-  currentLangFilter = l;
-  showPage('shop');
-}
-
-function searchProducts() {
-  const q = document.getElementById('searchInput').value.toLowerCase();
-  if (!q) {
-    showPage('home');
-    return;
-  }
-  showPage('shop');
-  renderProducts('all-products', products.filter(p => 
-    p.title.toLowerCase().includes(q) || 
-    p.lang.toLowerCase().includes(q) ||
-    (p.desc && p.desc.toLowerCase().includes(q))
-  ));
-}
-
-// ====== UPLOAD PRODUCT ======
-function uploadProduct(e) {
-  e.preventDefault();
-  
-  const title = document.getElementById('prodName').value;
-  const category = document.getElementById('category').value;
-  const language = document.getElementById('language').value;
-  const price = parseFloat(document.getElementById('price').value);
-  const desc = document.getElementById('description').value;
-  const stock = parseInt(document.getElementById('stock').value) || 1;
-  
-  const images = [];
-  document.querySelectorAll('#imagePreview img').forEach(img => {
-    images.push(img.src);
-  });
-  
-  if (images.length === 0) {
-    showError('Please upload at least one image');
-    return;
-  }
-  
-  const newProduct = {
-    id: Date.now(),
-    title,
-    cat: category,
-    lang: language,
-    price,
-    desc,
-    stock,
-    images
-  };
-  
-  products.push(newProduct);
-  localStorage.setItem('mossymart_products', JSON.stringify(products));
-  
-  showSuccess();
-  document.getElementById('productForm').reset();
-  document.getElementById('imagePreview').innerHTML = '';
-  
-  setTimeout(() => showPage('admin'), 1500);
-}
-
-// ====== FILE UPLOAD HANDLING ======
-const uploadArea = document.getElementById('uploadArea');
-const fileInput = document.getElementById('fileInput');
-const imagePreview = document.getElementById('imagePreview');
-
-uploadArea.addEventListener('click', () => fileInput.click());
-
-uploadArea.addEventListener('dragover', (e) => {
-  e.preventDefault();
-  uploadArea.classList.add('dragover');
-});
-
-uploadArea.addEventListener('dragleave', () => {
-  uploadArea.classList.remove('dragover');
-});
-
-uploadArea.addEventListener('drop', (e) => {
-  e.preventDefault();
-  uploadArea.classList.remove('dragover');
-  handleFiles(e.dataTransfer.files);
-});
-
-fileInput.addEventListener('change', (e) => {
-  handleFiles(e.target.files);
-});
-
-function handleFiles(files) {
-  const maxFiles = 5;
-  const currentFiles = imagePreview.querySelectorAll('img').length;
-  
-  Array.from(files).slice(0, maxFiles - currentFiles).forEach(file => {
-    if (!file.type.startsWith('image/')) return;
-    if (file.size > 5 * 1024 * 1024) {
-      alert(`${file.name} too large (max 5MB)`);
-      return;
-    }
-    
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const div = document.createElement('div');
-      div.className = 'preview-item';
-      div.innerHTML = `
-        <img src="${e.target.result}" alt="preview">
-        <button type="button" class="remove-img" onclick="this.parentElement.remove()">✕</button>
-      `;
-      imagePreview.appendChild(div);
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
-function showSuccess() {
-  const msg = document.getElementById('success-msg');
-  msg.style.display = 'block';
-  setTimeout(() => msg.style.display = 'none', 3000);
-}
-
-function showError(text) {
-  const msg = document.getElementById('error-msg');
-  msg.textContent = '✗ ' + text;
-  msg.style.display = 'block';
-  setTimeout(() => msg.style.display = 'none', 3000);
-}
-
-// ====== ADMIN FUNCTIONS ======
-function refreshAdminTable() {
-  const tbody = document.getElementById('tablebody');
-  if (products.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="7" class="empty-table">No products yet. Click "Add New Product" to start.</td></tr>';
-    return;
-  }
-  
-  tbody.innerHTML = products.map(p => {
-    const img = p.images && p.images.length > 0 ? `<img src="${p.images[0]}" alt="${p.title}">` : '📀';
-    return `
-      <tr>
-        <td>${img}</td>
-        <td><strong>${p.title}</strong></td>
-        <td>${p.cat}</td>
-        <td>${p.lang}</td>
-        <td>₹${p.price.toFixed(2)}</td>
-        <td>${p.stock}</td>
-        <td><button class="delete-btn" onclick="deleteProduct(${p.id})">Delete</button></td>
-      </tr>
-    `;
-  }).join('');
-}
-
-function deleteProduct(id) {
-  if (confirm('Delete this product?')) {
-    products = products.filter(p => p.id !== id);
-    localStorage.setItem('mossymart_products', JSON.stringify(products));
-    refreshAdminTable();
-    refreshShop();
-  }
-}
-
-function exportProducts() {
-  if (products.length === 0) {
-    alert('No products to export');
-    return;
-  }
-  
-  const csv = 'ID,Title,Category,Language,Price,Stock,Description\n' +
-    products.map(p => `"${p.id}","${p.title}","${p.cat}","${p.lang}","${p.price}","${p.stock}","${p.desc}"`).join('\n');
-  
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'mossymart_products.csv';
-  a.click();
-}
-
-function clearAllProducts() {
-  if (confirm('⚠️ DELETE ALL PRODUCTS? This cannot be undone!')) {
-    products = [];
-    localStorage.setItem('mossymart_products', JSON.stringify(products));
-    refreshAdminTable();
-  }
-}
-
-// ====== CART FUNCTIONS ======
-function addToCart(id) {
-  cart.push(id);
-  localStorage.setItem('mossymart_cart', JSON.stringify(cart));
-  updateCartCount();
-  
-  const t = document.createElement('div');
-  t.textContent = '✓ Added!';
-  t.style.cssText = 'position:fixed;bottom:100px;right:20px;background:#2d5016;color:#fff;padding:10px 15px;border-radius:5px;z-index:2000;font-weight:bold;font-size:12px';
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 1500);
-}
-
-function updateCartCount() {
-  document.querySelectorAll('.cart-count').forEach(e => e.textContent = cart.length);
-}
-
-function openCart() {
-  const el = document.getElementById('cart-items');
-  let cartHTML = '';
-  let total = 0;
-  
-  if (cart.length === 0) {
-    cartHTML = '<p style="font-size:13px;color:#666">Your cart is empty</p>';
-    document.getElementById('cart-total').textContent = '0.00';
-  } else {
-    const cartCounts = {};
-    cart.forEach(id => {
-      cartCounts[id] = (cartCounts[id] || 0) + 1;
-    });
-    
-    Object.keys(cartCounts).forEach(id => {
-      const p = products.find(pr => pr.id == id);
-      if (p) {
-        const itemTotal = p.price * cartCounts[id];
-        total += itemTotal;
-        const img = p.images && p.images.length > 0 ? `<img src="${p.images[0]}" alt="${p.title}">` : '<div style="font-size:20px">📀</div>';
-        
-        cartHTML += `
-          <div class="cart-item">
-            ${img}
-            <div class="cart-item-info">
-              <strong>${p.title}</strong><br>
-              ₹${p.price.toFixed(2)} × ${cartCounts[id]} = ₹${itemTotal.toFixed(2)}
-            </div>
-            <button class="remove-btn" onclick="removeFromCart(${id})">✕</button>
-          </div>
-        `;
-      }
-    });
-    
-    document.getElementById('cart-total').textContent = total.toFixed(2);
-  }
-  
-  el.innerHTML = cartHTML;
-  
-  // WhatsApp message
-  const whatsappLink = document.getElementById('whatsappLink');
-  const cartCounts = {};
-  cart.forEach(id => {
-    cartCounts[id] = (cartCounts[id] || 0) + 1;
-  });
-  
-  const itemList = Object.keys(cartCounts).map(id => {
-    const p = products.find(pr => pr.id == id);
-    return `${p.title} (Qty: ${cartCounts[id]}) - ₹${(p.price * cartCounts[id]).toFixed(2)}`;
-  }).join('\n');
-  
-  const message = encodeURIComponent(
-    `Hi MossyMart!\n\nI want to order:\n\n${itemList}\n\nTotal: ₹${total.toFixed(2)}\n\nPlease confirm availability and delivery time.`
-  );
-  
-  whatsappLink.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
-  
-  document.getElementById('cartModal').classList.add('active');
-}
-
-function closeCart() {
-  document.getElementById('cartModal').classList.remove('active');
-}
-
-function removeFromCart(id) {
-  const index = cart.indexOf(id);
-  if (index > -1) {
-    cart.splice(index, 1);
-    localStorage.setItem('mossymart_cart', JSON.stringify(cart));
-    updateCartCount();
-    openCart();
-  }
-}
-
-// ====== INITIALIZATION ======
-renderProducts('popular-products', products.slice(0, 8));
-updateCartCount();
-</script>
+  <script src="script.js"></script>
 </body>
-</html>
+          </html>
